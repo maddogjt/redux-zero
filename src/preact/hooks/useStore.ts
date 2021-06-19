@@ -1,4 +1,4 @@
-import { useContext } from "preact/compat";
+import { useContext } from "preact/hooks";
 import { getTypedContext } from "../components/Store";
 import {Store} from "../../interfaces/Store";
 

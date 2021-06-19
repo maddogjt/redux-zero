@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useReducer, useRef } from "preact/compat";
+import { useEffect, useLayoutEffect, useReducer, useRef } from "preact/hooks";
 import { useStore } from "./useStore";
 
 type selector<TState, TSelected> = (state: TState) => TSelected;
