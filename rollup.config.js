@@ -3,6 +3,7 @@ import babel from "@rollup/plugin-babel";
 import replace from "@rollup/plugin-replace";
 import typescript from "rollup-plugin-typescript2";
 import { terser } from "rollup-plugin-terser";
+import peerDepsExternal from "rollup-plugin-peer-deps-external";
 
 import pkg from "./package.json";
 
@@ -22,6 +23,8 @@ const makeExternalPredicate = (externalArr) => {
   return (id) => pattern.test(id);
 };
 
+const globals = ['preact', 'preact/hooks'];
+
 export default [
   // CommonJS
   {
@@ -39,6 +42,7 @@ export default [
       // entryFileNames: "[name].min.js",
       format: "cjs",
       indent: false,
+      globals,
     },
     external: makeExternalPredicate([
       ...Object.keys(pkg.dependencies || {}),
@@ -46,6 +50,7 @@ export default [
       ...Object.keys(pkg.devDependencies || {}),
     ]),
     plugins: [
+      peerDepsExternal(),
       nodeResolve({
         extensions,
       }),
@@ -64,13 +69,14 @@ export default [
   // ES
   {
     input: "src/index.ts",
-    output: { file: "es/redux-zero.js", format: "es", indent: false },
+    output: { file: "es/redux-zero.js", format: "es", indent: false, globals },
     external: makeExternalPredicate([
       ...Object.keys(pkg.dependencies || {}),
       ...Object.keys(pkg.peerDependencies || {}),
       ...Object.keys(pkg.devDependencies || {}),
     ]),
     plugins: [
+      peerDepsExternal(),
       nodeResolve({
         extensions,
       }),
@@ -92,8 +98,9 @@ export default [
   // ES for Browsers
   {
     input: "src/index.ts",
-    output: { file: "es/redux-zero.mjs", format: "es", indent: false },
+    output: { file: "es/redux-zero.mjs", format: "es", indent: false, globals },
     plugins: [
+      peerDepsExternal(),
       nodeResolve({
         extensions,
       }),
@@ -128,8 +135,10 @@ export default [
       format: "umd",
       name: "ReduxZero",
       indent: false,
+      globals,
     },
     plugins: [
+      peerDepsExternal(),
       nodeResolve({
         extensions,
       }),
@@ -157,8 +166,10 @@ export default [
       format: "umd",
       name: "ReduxZero",
       indent: false,
+      globals,
     },
     plugins: [
+      peerDepsExternal(),
       nodeResolve({
         extensions,
       }),
