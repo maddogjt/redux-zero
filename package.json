@@ -17,8 +17,8 @@
     "build:umd": "cross-env NODE_ENV=umd rollup --config",
     "build:cjs": "cross-env NODE_ENV=cjs rollup --config",
     "build": "yarn run build:umd && yarn run build:cjs",
-    "prepublish": "yarn run build",
-    "precommit": "yarn run build"
+    "unknown-prepublish": "yarn run build",
+    "unknown-prepare": "husky install"
   },
   "author": "Matheus Lima <matheusml90@gmail.com>",
   "files": [
@@ -65,7 +65,7 @@
     "cross-env": "5.0.5",
     "enzyme": "3.10.0",
     "enzyme-adapter-react-16": "1.14.0",
-    "husky": "0.14.3",
+    "husky": "^6.0.0",
     "jest": "21.2.1",
     "preact": "10.5.13",
     "preact-render-spy": "1.2.1",
