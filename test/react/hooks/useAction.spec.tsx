@@ -44,7 +44,7 @@ describe("redux-zero - react bindings", () => {
 
       const Comp = () => {
         const incrementOf = useAction(({ count }, value) => ({
-          count: count + value
+          count: count + value,
         }));
 
         return <button onClick={() => incrementOf(10)}>Click me</button>;

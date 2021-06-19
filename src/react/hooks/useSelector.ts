@@ -11,7 +11,7 @@ const useIsomorphicLayoutEffect =
 
 export function useSelector<S>(selector: selector<S>): any {
   const store = useStore();
-  const [, forceRerender] = useReducer(s => s + 1, 0);
+  const [, forceRerender] = useReducer((s) => s + 1, 0);
 
   const selectorRef = useRef(undefined);
   const selectedStateRef = useRef(undefined);
@@ -26,15 +26,12 @@ export function useSelector<S>(selector: selector<S>): any {
       selectedState = selectedStateRef.current;
     }
   } catch (err) {
-    let errorMessage = `An error occurred while selecting the store state: ${
-      err.message
-    }.`;
+    let errorMessage = `An error occurred while selecting the store state: ${err.message}.`;
 
     if (onChangeErrorRef.current) {
       errorMessage +=
-        `\nThe error may be related with this previous error:\n${
-          onChangeErrorRef.current.stack
-        }` + `\n\nOriginal stack trace:`;
+        `\nThe error may be related with this previous error:\n${onChangeErrorRef.current.stack}` +
+        `\n\nOriginal stack trace:`;
     }
 
     throw new Error(errorMessage);
@@ -46,31 +43,28 @@ export function useSelector<S>(selector: selector<S>): any {
     onChangeErrorRef.current = undefined;
   });
 
-  useIsomorphicLayoutEffect(
-    () => {
-      const checkForUpdates = () => {
-        try {
-          const newSelectedState = selectorRef.current(store.getState());
+  useIsomorphicLayoutEffect(() => {
+    const checkForUpdates = () => {
+      try {
+        const newSelectedState = selectorRef.current(store.getState());
 
-          if (newSelectedState === selectedStateRef.current) {
-            return;
-          }
-
-          selectedStateRef.current = newSelectedState;
-        } catch (err) {
-          onChangeErrorRef.current = err;
+        if (newSelectedState === selectedStateRef.current) {
+          return;
         }
 
-        forceRerender({});
-      };
+        selectedStateRef.current = newSelectedState;
+      } catch (err) {
+        onChangeErrorRef.current = err;
+      }
 
-      const unsubscribe = store.subscribe(checkForUpdates);
-      checkForUpdates();
+      forceRerender();
+    };
 
-      return () => unsubscribe();
-    },
-    [store]
-  );
+    const unsubscribe = store.subscribe(checkForUpdates);
+    checkForUpdates();
+
+    return () => unsubscribe();
+  }, [store]);
 
   return selectedState;
 }

@@ -8,10 +8,7 @@ export function useAction<S>(
 ): (...args: any[]) => Promise<void> | void {
   const store = useStore();
 
-  return useMemo(
-    () => {
-      return bindAction(action, store);
-    },
-    [store, action]
-  );
+  return useMemo(() => {
+    return bindAction(action, store);
+  }, [store, action]);
 }

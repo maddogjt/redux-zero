@@ -7,7 +7,7 @@ type OmitFirstArg<F, R> = F extends (x: any, ...args: infer P) => any
   : never;
 
 export default function bindActions<S, T extends { [key: string]: Action<S> }>(
-  actions: ((store: Store<S>, ownProps) => T) | T,
+  actions: ((store: Store<S>, ownProps: any) => T) | T,
   store: Store<S>,
   ownProps?: object
 ): { [K in keyof T]: OmitFirstArg<T[K], Promise<void> | void> } {

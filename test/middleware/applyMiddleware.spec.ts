@@ -5,14 +5,14 @@ import bindActions from "../utils/bindActions";
 const getActions = ({ getState }) => ({
   syncAction: ({ count }) => ({ count: count + 1 }),
   syncActionDouble: ({ count }) => ({ count: count + 2 }),
-  syncActionTriple: ({ count }) => ({ count: count + 3 })
+  syncActionTriple: ({ count }) => ({ count: count + 3 }),
 });
 
 const noAction = () => () => () => {};
-const doAnotherAction = store => next => action => {
+const doAnotherAction = (store) => (next) => (action) => {
   return next(getActions(store).syncActionDouble);
 };
-const doTripleAction = store => next => action => {
+const doTripleAction = (store) => (next) => (action) => {
   return next(getActions(store).syncActionTriple);
 };
 

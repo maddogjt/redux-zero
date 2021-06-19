@@ -1,7 +1,6 @@
 import { Component } from "preact";
 
 import Props from "../../interfaces/Props";
-import Store from "../../interfaces/Store";
 
 export default class Provider<S = any> extends Component<Props<S>, {}> {
   getChildContext() {
@@ -9,7 +8,7 @@ export default class Provider<S = any> extends Component<Props<S>, {}> {
   }
   render() {
     return (
-      (this.props.children && this.props.children[0]) ||
+      (Array.isArray(this.props.children) && this.props.children[0]) ||
       (this.props.children as JSX.Element)
     );
   }

@@ -12,7 +12,7 @@ export default function applyMiddleware(...middlewares: any[]) {
     }
 
     const chain = middlewares
-      .map(middleware => middleware(store))
+      .map((middleware) => middleware(store))
       .reduce(
         (next, middleware) => middleware(next, args),
         finalMiddleware(store, args)

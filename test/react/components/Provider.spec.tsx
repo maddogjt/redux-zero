@@ -20,7 +20,7 @@ describe("redux-zero - react bindings", () => {
 
       class Comp extends React.Component {
         static contextTypes = {
-          store: () => null
+          store: () => null,
         };
         render() {
           return <h1>{String(!!this.context.store)}</h1>;
@@ -44,7 +44,7 @@ describe("redux-zero - react bindings", () => {
         render() {
           return (
             <Context.Consumer>
-              {store => <h1>{String(!!store)}</h1>}
+              {(store) => <h1>{String(!!store)}</h1>}
             </Context.Consumer>
           );
         }

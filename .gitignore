@@ -44,6 +44,11 @@ dist/
 /devtools/
 index.d.ts
 
+dist
+lib
+es
+types
+
 # Optional npm cache directory
 .npm
 

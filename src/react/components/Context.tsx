@@ -6,7 +6,7 @@ if ("createContext" in React) {
   Context = React.createContext(undefined);
 } else {
   Context = {
-    Provider: ({ children }) => React.Children.only(children)
+    Provider: ({ children }) => React.Children.only(children),
   };
 }
 

@@ -17,7 +17,7 @@ function createStore<S extends object = any>(
   const listeners: Function[] = [];
 
   function dispatchListeners() {
-    listeners.forEach(f => f(state));
+    listeners.forEach((f) => f(state));
   }
 
   return {
@@ -25,7 +25,7 @@ function createStore<S extends object = any>(
     setState(update: ((state: Partial<S>) => Partial<S>) | Partial<S>) {
       state = {
         ...(state as object),
-        ...(typeof update === "function" ? update(state) : (update as object))
+        ...(typeof update === "function" ? update(state) : (update as object)),
       };
 
       dispatchListeners();
@@ -42,7 +42,8 @@ function createStore<S extends object = any>(
     reset() {
       state = initialState;
       dispatchListeners();
-    }
+    },
   };
 }
+export {createStore};
 export default createStore;

@@ -7,7 +7,7 @@ type mapToProps<S> = (state: S, ownProps?: object) => object;
 
 export class Connect extends React.Component<any> {
   static contextTypes = {
-    store: propValidation
+    store: propValidation,
   };
   unsubscribe: any;
   actions: any;
@@ -49,7 +49,7 @@ export class Connect extends React.Component<any> {
     return this.props.children({
       store: this.context.store,
       ...this.state,
-      ...this.actions
+      ...this.actions,
     });
   }
 }

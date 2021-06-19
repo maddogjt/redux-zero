@@ -1,11 +1,12 @@
+/** @jsx h */
 import { h, Component } from "preact";
 
 import shallowEqual from "../../utils/shallowEqual";
 import bindActions from "../../utils/bindActions";
 
 export class Connect extends Component<any, {}> {
-  unsubscribe;
-  actions;
+  unsubscribe: any;
+  actions: any;
 
   constructor(props: any, context: any) {
     super(props, context);
@@ -24,7 +25,7 @@ export class Connect extends Component<any, {}> {
       this.setState(mapped);
     }
   }
-  getProps(props, context) {
+  getProps(props: any, context: any) {
     const { mapToProps } = props;
     const state = (context.store && context.store.getState()) || {};
     return mapToProps ? mapToProps(state, props) : state;
@@ -39,7 +40,7 @@ export class Connect extends Component<any, {}> {
       this.setState(mapped);
     }
   };
-  render({ children }, state, { store }) {
+  render({ children }: {children:any}, state: any, { store }: any) {
     const child = (children && children[0]) || children;
     return child({ store, ...state, ...this.actions });
   }
@@ -50,15 +51,15 @@ export class Connect extends Component<any, {}> {
 // in the future this might become unecessary by updating typings
 const ConnectUntyped = Connect as any;
 
-export default function connect(mapToProps, actions = {}) {
-  return Child =>
+export default function connect(mapToProps: any, actions = {}) {
+  return (Child: any) =>
     class ConnectWrapper extends Component<any, {}> {
       render() {
         const { props } = this;
 
         return (
           <ConnectUntyped {...props} mapToProps={mapToProps} actions={actions}>
-            {mappedProps => <Child {...mappedProps} {...props} />}
+            {(mappedProps: h.JSX.IntrinsicAttributes) => <Child {...mappedProps} {...props} />}
           </ConnectUntyped>
         );
       }

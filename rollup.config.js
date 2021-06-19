@@ -1,81 +1,185 @@
+import nodeResolve from "@rollup/plugin-node-resolve";
+import babel from "@rollup/plugin-babel";
+import replace from "@rollup/plugin-replace";
 import typescript from "rollup-plugin-typescript2";
-import resolve from "rollup-plugin-node-resolve";
-import commonjs from "rollup-plugin-commonjs";
-import uglify from "rollup-plugin-uglify";
-import filesize from "rollup-plugin-filesize";
+import { terser } from "rollup-plugin-terser";
 
-const format = process.env.NODE_ENV;
-const isUmd = format === "umd";
-const REACT = "react";
-const PREACT = "preact";
+import pkg from "./package.json";
 
-function getFileName(file) {
-  if (isUmd) {
-    return `${file}.min.js`;
+const extensions = [".ts"];
+const noDeclarationFiles = { compilerOptions: { declaration: false } };
+
+const babelRuntimeVersion = pkg.devDependencies["@babel/runtime"].replace(
+  /^[^0-9]*/,
+  ""
+);
+
+const makeExternalPredicate = (externalArr) => {
+  if (externalArr.length === 0) {
+    return () => false;
   }
-  return `${file}.js`;
-}
+  const pattern = new RegExp(`^(${externalArr.join("|")})($|/)`);
+  return (id) => pattern.test(id);
+};
 
-function getGlobals(file) {
-  if (isUmd) {
-    if (file.startsWith(REACT)) {
-      return { react: "React" };
-    } else if (file.startsWith(PREACT)) {
-      return { preact: PREACT };
-    }
-    return {};
-  }
-  return {};
-}
-
-function getExternals(file) {
-  if (file.startsWith(REACT)) {
-    return [REACT];
-  } else if (file.startsWith(PREACT)) {
-    return [PREACT];
-  }
-  return [];
-}
-
-function getConfig(input, file) {
-  const tsconfig = input.includes(PREACT)
-    ? "./src/preact/tsconfig.json"
-    : "tsconfig.json";
-
-  const conf = {
-    input,
-    name: "redux-zero",
-    sourcemap: false,
-    external: getExternals(file),
+export default [
+  // CommonJS
+  {
+    // input: {
+    //   index: "src/index.ts",
+    //   "preact/index": "src/preact/index.ts",
+    //   "middleware/index": "src/middleware/index.ts",
+    //   "utils/index": "src/utils/index.ts",
+    //   "devtools/index": "src/devtools/index.ts",
+    // },
+    input: "src/index.ts",
     output: {
-      file: getFileName(file),
-      format,
-      globals: getGlobals(file)
+      // dir: "lib",
+      file: "lib/redux-zero.js",
+      // entryFileNames: "[name].min.js",
+      format: "cjs",
+      indent: false,
+    },
+    external: makeExternalPredicate([
+      ...Object.keys(pkg.dependencies || {}),
+      ...Object.keys(pkg.peerDependencies || {}),
+    ]),
+    plugins: [
+      nodeResolve({
+        extensions,
+      }),
+      typescript({ useTsconfigDeclarationDir: true }),
+      babel({
+        extensions,
+        plugins: [
+          ["@babel/plugin-transform-runtime", { version: babelRuntimeVersion }],
+          ["./scripts/mangleErrors.js", { minify: false }],
+        ],
+        babelHelpers: "runtime",
+      }),
+    ],
+  },
+
+  // ES
+  {
+    input: "src/index.ts",
+    output: { file: "es/redux-zero.js", format: "es", indent: false },
+    external: makeExternalPredicate([
+      ...Object.keys(pkg.dependencies || {}),
+      ...Object.keys(pkg.peerDependencies || {}),
+    ]),
+    plugins: [
+      nodeResolve({
+        extensions,
+      }),
+      typescript({ tsconfigOverride: noDeclarationFiles }),
+      babel({
+        extensions,
+        plugins: [
+          [
+            "@babel/plugin-transform-runtime",
+            { version: babelRuntimeVersion, useESModules: true },
+          ],
+          ["./scripts/mangleErrors.js", { minify: false }],
+        ],
+        babelHelpers: "runtime",
+      }),
+    ],
+  },
+
+  // ES for Browsers
+  {
+    input: "src/index.ts",
+    output: { file: "es/redux-zero.mjs", format: "es", indent: false },
+    plugins: [
+      nodeResolve({
+        extensions,
+      }),
+      replace({
+        preventAssignment: true,
+        "process.env.NODE_ENV": JSON.stringify("production"),
+      }),
+      typescript({ tsconfigOverride: noDeclarationFiles }),
+      babel({
+        extensions,
+        exclude: "node_modules/**",
+        plugins: [["./scripts/mangleErrors.js", { minify: true }]],
+        skipPreflightCheck: true,
+        babelHelpers: "bundled",
+      }),
+      terser({
+        compress: {
+          pure_getters: true,
+          unsafe: true,
+          unsafe_comps: true,
+          warnings: false,
+        },
+      }),
+    ],
+  },
+
+  // UMD Development
+  {
+    input: "src/index.ts",
+    output: {
+      file: "dist/redux-zero.js",
+      format: "umd",
+      name: "ReduxZero",
+      indent: false,
     },
     plugins: [
-      typescript({ useTsconfigDeclarationDir: true, tsconfig }),
-      resolve({
-        jsnext: true,
-        main: true,
-        browser: true
+      nodeResolve({
+        extensions,
       }),
-      commonjs()
-    ]
-  };
+      typescript({ tsconfigOverride: noDeclarationFiles }),
+      babel({
+        extensions,
+        exclude: "node_modules/**",
+        plugins: [["./scripts/mangleErrors.js", { minify: false }]],
+        babelHelpers: "bundled",
+      }),
+      replace({
+        preventAssignment: true,
+        "process.env.NODE_ENV": JSON.stringify("development"),
+      }),
+    ],
+  },
 
-  isUmd && conf.plugins.push(uglify(), filesize());
-
-  return conf;
-}
-
-const config = [
-  getConfig("./src/index.ts", "dist/redux-zero"),
-  getConfig("./src/preact/index.ts", "preact/index"),
-  getConfig("./src/react/index.ts", "react/index"),
-  getConfig("./src/middleware/index.ts", "middleware/index"),
-  getConfig("./src/utils/index.ts", "utils/index"),
-  getConfig("./src/devtools/index.ts", "devtools/index"),
-  getConfig("./src/types/index.ts", "types/index")
+  // UMD Production
+  {
+    // input: { index: "src/index.ts", "preact/index": "src/preact/index.ts" },
+    input: "src/index.ts",
+    output: {
+      file: "dist/redux-zero.min.js",
+      // entryFileNames: "dist/[name].min.js",
+      format: "umd",
+      name: "ReduxZero",
+      indent: false,
+    },
+    plugins: [
+      nodeResolve({
+        extensions,
+      }),
+      typescript({ tsconfigOverride: noDeclarationFiles }),
+      babel({
+        extensions,
+        exclude: "node_modules/**",
+        plugins: [["./scripts/mangleErrors.js", { minify: true }]],
+        skipPreflightCheck: true,
+        babelHelpers: "bundled",
+      }),
+      replace({
+        preventAssignment: true,
+        "process.env.NODE_ENV": JSON.stringify("production"),
+      }),
+      terser({
+        compress: {
+          pure_getters: true,
+          unsafe: true,
+          unsafe_comps: true,
+          warnings: false,
+        },
+      }),
+    ],
+  },
 ];
-
-export default config;
