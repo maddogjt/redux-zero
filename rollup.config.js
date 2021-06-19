@@ -72,8 +72,6 @@ const config = [
   getConfig("./src/index.ts", "dist/redux-zero"),
   getConfig("./src/preact/index.ts", "preact/index"),
   getConfig("./src/react/index.ts", "react/index"),
-  getConfig("./src/svelte/index.ts", "svelte/index"),
-  getConfig("./src/vue/index.ts", "vue/index"),
   getConfig("./src/middleware/index.ts", "middleware/index"),
   getConfig("./src/utils/index.ts", "utils/index"),
   getConfig("./src/devtools/index.ts", "devtools/index"),
