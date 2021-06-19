@@ -54,6 +54,11 @@
     },
     "testMatch": [
       "<rootDir>/src/**/*.spec.(ts|tsx)"
+    ],
+    "testPathIgnorePatterns": [
+      "<rootDir>/build/",
+      "<rootDir>/node_modules/",
+      "<rootDir>/src/preact/"
     ]
   },
   "devDependencies": {
@@ -64,7 +69,7 @@
     "enzyme-adapter-react-16": "1.14.0",
     "husky": "0.14.3",
     "jest": "21.2.1",
-    "preact": "8.2.6",
+    "preact": "10.5.13",
     "preact-render-spy": "1.2.1",
     "prettier": "1.12.0",
     "react": "16.8.0",

@@ -2,7 +2,9 @@ import bindAction from "./bindAction";
 import Store from "../interfaces/Store";
 import { Action } from "../types";
 
-type OmitFirstArg<F, R> = F extends (x: any, ...args: infer P) => any ? (...args: P) => R : never;
+type OmitFirstArg<F, R> = F extends (x: any, ...args: infer P) => any
+  ? (...args: P) => R
+  : never;
 
 export default function bindActions<S, T extends { [key: string]: Action<S> }>(
   actions: ((store: Store<S>, ownProps) => T) | T,
