@@ -68,17 +68,8 @@ const { Provider, connect } = require("redux-zero/react");
 <!-- the store -->
 <script src="https://unpkg.com/redux-zero/dist/redux-zero.min.js"></script>
 
-<!-- for react -->
-<script src="https://unpkg.com/redux-zero/react/index.min.js"></script>
-
 <!-- for preact -->
 <script src="https://unpkg.com/redux-zero/preact/index.min.js"></script>
-
-<!-- for vue -->
-<script src="https://unpkg.com/redux-zero/vue/index.min.js"></script>
-
-<!-- for svelte -->
-<script src="https://unpkg.com/redux-zero/svelte/index.min.js"></script>
 ```
 
 ## Example
@@ -169,14 +160,7 @@ store.reset();
 
 ### More examples
 
-- [React](https://github.com/redux-zero/redux-zero/tree/master/examples/react/counter)
-- [React-Router](https://github.com/redux-zero/redux-zero/tree/master/examples/react/react-router)
-- [Material-UI](https://github.com/redux-zero/redux-zero/tree/master/examples/react/material-ui-counter)
 - [Preact](https://github.com/redux-zero/redux-zero/tree/master/examples/preact/counter)
-- [React Native](https://github.com/redux-zero/redux-zero/tree/master/examples/react-native/counter)
-- [SSR](https://github.com/redux-zero/redux-zero/tree/master/examples/react/ssr)
-- [Svelte](https://github.com/redux-zero/redux-zero/tree/master/examples/svelte/counter)
-- [Vue](https://github.com/redux-zero/redux-zero/tree/master/examples/vue/counter)
 
 ## Actions
 

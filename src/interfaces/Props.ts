@@ -1,3 +1,4 @@
+import { JSX } from "preact";
 import {Store} from "./Store";
 
 export interface Props<S = any> {
