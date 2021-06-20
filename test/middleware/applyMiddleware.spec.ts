@@ -1,18 +1,19 @@
-import createStore from "..";
-import applyMiddleware from "./applyMiddleware";
-import bindActions from "../utils/bindActions";
+import {createStore} from "../../src";
+import {applyMiddleware} from "../../src/middleware";
+import {bindActions} from "../../src/utils";
 
-const getActions = ({ getState }) => ({
+
+const getActions = (_state: any) => ({
   syncAction: ({ count }) => ({ count: count + 1 }),
   syncActionDouble: ({ count }) => ({ count: count + 2 }),
   syncActionTriple: ({ count }) => ({ count: count + 3 }),
 });
 
 const noAction = () => () => () => {};
-const doAnotherAction = (store) => (next) => (action) => {
+const doAnotherAction = (store) => (next) => (_action) => {
   return next(getActions(store).syncActionDouble);
 };
-const doTripleAction = (store) => (next) => (action) => {
+const doTripleAction = (store) => (next) => (_action) => {
   return next(getActions(store).syncActionTriple);
 };
 

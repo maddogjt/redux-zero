@@ -1,18 +1,18 @@
-import createStore from "..";
-import bindActions from "../utils/bindActions";
-import applyMiddleware from "../middleware/applyMiddleware";
+import { createStore } from "../../src";
+import { bindActions } from "../../src/utils";
+import { applyMiddleware } from "../../src/middleware";
 import {
   devtoolsMiddleware,
   update,
   devTools,
-  getOrAddAction,
-} from "./devtoolsMiddleware";
+  // getOrAddAction,
+} from "../../src/devtools/devtoolsMiddleware";
 
 const increment = ({ count }) => ({ count: count + 1 });
 const decrement = ({ count }) => ({ count: count - 1 });
 const incrementBy = ({ count }, amount) => ({ count: count + amount });
 
-const getActions = () => ({
+const getActions = (_store) => ({
   increment,
   decrement,
   incrementBy,
@@ -38,15 +38,15 @@ const jumpToState = {
   payload: { type: "JUMP_TO_STATE" },
   state: '{"count":4}',
 };
-const toggleAction = {
-  type: "DISPATCH",
-  payload: { type: "TOGGLE_ACTION", id: 1 },
-  state: `{"actionsById":{"0":{"action":{"type":"initialState"},"timestamp":1514964802390,"type":"PERFORM_ACTION"},
-    "1":{"action":{"type":"increment"},"timestamp":1514964812877,"type":"PERFORM_ACTION"},
-    "2":{"action":{"type":"decrement"},"timestamp":1514964817322,"type":"PERFORM_ACTION"}},
-    "computedStates":[{"state":{"count":1}},{"state":{"count":2}},{"state":{"count":1}}],
-    "currentStateIndex":2,"nextActionId":3,"skippedActionIds":[],"stagedActionIds":[0,1,2]}`,
-};
+  // const toggleAction = {
+  //   type: "DISPATCH",
+  //   payload: { type: "TOGGLE_ACTION", id: 1 },
+  //   state: `{"actionsById":{"0":{"action":{"type":"initialState"},"timestamp":1514964802390,"type":"PERFORM_ACTION"},
+  //     "1":{"action":{"type":"increment"},"timestamp":1514964812877,"type":"PERFORM_ACTION"},
+  //     "2":{"action":{"type":"decrement"},"timestamp":1514964817322,"type":"PERFORM_ACTION"}},
+  //     "computedStates":[{"state":{"count":1}},  {"state":{"count":2}},{"state":{"count":1}}],
+  //     "currentStateIndex":2,"nextActionId":3,"skippedActionIds":[],"stagedActionIds":[0,1,2]}`,
+  // };
 
 const StoreStub = {
   middleware: null,
@@ -145,7 +145,7 @@ describe("sendActions", () => {
     let sentAction = null;
     devTools.instance = {
       ...StoreStub,
-      send: (action, state) => {
+      send: (action, _state) => {
         sentAction = action;
         sendCalled = true;
       },
@@ -171,7 +171,7 @@ describe("sendActions", () => {
       subscribe: () => (subscribeCalled = true),
     };
 
-    actions.successAsyncAction().then(() => {
+    Promise.resolve(actions.successAsyncAction()).then(() => {
       const [LOADING_STATE, SUCCESS_STATE] = listener.mock.calls.map(
         ([call]) => call
       );

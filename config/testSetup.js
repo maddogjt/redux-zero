@@ -1,8 +1,7 @@
-const ReactTestRenderer = require("react-test-renderer");
 const Enzyme = require("enzyme");
-// const Adapter = require("enzyme-adapter-react-16");
+const { Adapter } = require("enzyme-adapter-preact-pure");
 
-// Enzyme.configure({ adapter: new Adapter() });
+Enzyme.configure({ adapter: new Adapter() });
 
 jest.useFakeTimers();
 global.shallow = Enzyme.shallow;

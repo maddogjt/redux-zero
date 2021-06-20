@@ -31,10 +31,10 @@ _site/
 
 # Dependency directory
 node_modules/
-dist
-lib
-es
-types
+dist/
+lib/
+es/
+types/
 
 # Optional npm cache directory
 .npm

@@ -1,4 +1,4 @@
-import createStore from "./createStore";
+import { createStore } from "../../src";
 
 describe("redux-zero - the store", () => {
   const listener = jest.fn();
@@ -21,7 +21,7 @@ describe("redux-zero - the store", () => {
       one: { two: { three: "four" } },
       five: "seven",
     });
-    store.setState((state) => ({ five: "eight" }));
+    store.setState((_state) => ({ five: "eight" }));
     expect(store.getState()).toEqual({
       one: { two: { three: "four" } },
       five: "eight",

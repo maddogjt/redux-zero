@@ -5,7 +5,7 @@ export type Action<S> = (
   ...args: any[]
 ) => Promise<Partial<S>> | Partial<S>;
 export type FuncTypeWithoutFirstArg<T extends (...args: any[]) => any> =
-  T extends (arg1: infer U, ...args: infer V) => infer Q
+  T extends (arg1: unknown, ...args: infer V) => unknown
     ? (...args: V) => void
     : any;
 export type ActionsObject<S> = { [action: string]: Action<S> };

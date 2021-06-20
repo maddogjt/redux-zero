@@ -2,8 +2,8 @@
 import { h, Component } from "preact";
 import { deep } from "preact-render-spy";
 
-import createStore from "../..";
-import { Provider } from "../index";
+import { createStore } from "../../../src";
+import { Provider } from "../../../src/preact";
 
 describe("redux-zero - react bindings", () => {
   const listener = jest.fn();

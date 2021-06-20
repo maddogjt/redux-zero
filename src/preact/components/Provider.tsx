@@ -1,4 +1,4 @@
-import { Component } from "preact";
+import { Component, JSX } from "preact";
 
 import Props from "../../interfaces/Props";
 
