@@ -37,20 +37,15 @@
       "ts",
       "tsx",
       "js"
-    ],
-    "setupFiles": [
-      "<rootDir>/config/testSetup.js"
+    ],  
+    "setupFilesAfterEnv": [
+      "<rootDir>/test/setup.ts"
     ],
     "transform": {
       "^.+\\.(ts|tsx)$": "ts-jest"
     },
     "testMatch": [
       "<rootDir>/test/**/*.spec.(ts|tsx)"
-    ],
-    "testPathIgnorePatterns": [
-      "<rootDir>/build/",
-      "<rootDir>/node_modules/",
-      "<rootDir>/test/preact/"
     ]
   },
   "devDependencies": {
@@ -70,6 +65,7 @@
     "@rollup/plugin-node-resolve": "13.0.0",
     "@rollup/plugin-replace": "2.4.2",
     "@rollup/plugin-typescript": "8.2.1",
+    "@types/enzyme": "3.10.8",
     "@types/jest": "26.0.23",
     "cross-env": "7.0.3",
     "enzyme": "3.11.0",

@@ -1,12 +1,12 @@
-/** @jsx h */
+/// <reference types="enzyme-adapter-preact-pure" />
 import { h } from "preact";
-import { deep } from "preact-render-spy";
+import { mount } from "enzyme";
 
-import createStore from "../..";
-import { Provider, Connect, connect } from "..";
+import { createStore, Store } from "../../../src";
+import { Provider, Connect, connect } from "../../../src/preact";
 
 describe("redux-zero - preact bindings", () => {
-  let store, listener, context;
+  let store: Store<any>, listener;
   beforeEach(() => {
     store = createStore({});
     listener = jest.fn();
@@ -29,11 +29,11 @@ describe("redux-zero - preact bindings", () => {
         </Provider>
       );
 
-      context = deep(<App />, { depth: Infinity });
-      expect(context.output()).toEqual(<h1>hello</h1>);
+      let context = mount(<App />);
+      expect(context.contains(<h1>hello</h1>)).toBe(true);
       store.setState({ message: "bye" });
-      context = deep(<App />, { depth: Infinity });
-      expect(context.output()).toEqual(<h1>bye</h1>);
+      context = mount(<App />);
+      expect(context.contains(<h1>bye</h1>)).toBe(true);
     });
 
     it("should provide the actions and subscribe to changes", () => {
@@ -45,7 +45,7 @@ describe("redux-zero - preact bindings", () => {
 
       const mapToProps = ({ count }) => ({ count });
 
-      const actions = (store) => ({
+      const actions = (_store) => ({
         increment: (state) => ({ count: state.count + 1 }),
       });
 
@@ -57,7 +57,7 @@ describe("redux-zero - preact bindings", () => {
         </Provider>
       );
 
-      context = deep(<App />, { depth: Infinity });
+      let context = mount(<App />);
       expect(context.find("h1").text()).toBe("0");
       context.find("[onClick]").simulate("click");
       context.find("[onClick]").simulate("click");
@@ -73,7 +73,7 @@ describe("redux-zero - preact bindings", () => {
 
       const mapToProps = ({ count }) => ({ count });
 
-      const actions = (store) => ({
+      const actions = (_store) => ({
         incrementOf: (state, value) => ({ count: state.count + value }),
       });
 
@@ -85,7 +85,7 @@ describe("redux-zero - preact bindings", () => {
         </Provider>
       );
 
-      context = deep(<App />, { depth: Infinity });
+      let context = mount(<App />);
       expect(context.find("h1").text()).toBe("0");
       context.find("[onClick]").simulate("click");
       context.find("[onClick]").simulate("click");
@@ -136,7 +136,7 @@ describe("redux-zero - preact bindings", () => {
         </Provider>
       );
 
-      context = deep(<App />, { depth: Infinity });
+      let context = mount(<App />);
       context.find("[onClick]").simulate("click");
     });
 
@@ -153,7 +153,7 @@ describe("redux-zero - preact bindings", () => {
         </Provider>
       );
 
-      context = deep(<App />, { depth: Infinity });
+      let context = mount(<App />);
       expect(context.find("h1").text()).toBe("true");
     });
 
@@ -180,29 +180,33 @@ describe("redux-zero - preact bindings", () => {
         </Provider>
       );
 
-      context = deep(<App />, { depth: Infinity });
+      let context = mount(<App />);
 
-      expect(context.output()).toEqual(
-        <div>
-          parent hello <span>child hello</span>
-        </div>
-      );
+      expect(
+        context.contains(
+          <div>
+            parent hello <span>child hello</span>
+          </div>
+        )
+      ).toBe(true);
 
       store.setState({ message: "bye" });
 
-      context = deep(<App />, { depth: Infinity });
+      context = mount(<App />);
 
-      expect(context.output()).toEqual(
-        <div>
-          parent bye <span>child bye</span>
-        </div>
-      );
+      expect(
+        context.contains(
+          <div>
+            parent bye <span>child bye</span>
+          </div>
+        )
+      ).toBe(true);
     });
 
     it("should connect return all state when mapToProps is not passed", () => {
       store.setState({ message: "Hey!" });
       const Comp = ({ message }) => <h1>{message}</h1>;
-      const ConnectedComp = connect()(Comp);
+      const ConnectedComp = connect(undefined)(Comp);
 
       const App = () => (
         <Provider store={store}>
@@ -210,13 +214,13 @@ describe("redux-zero - preact bindings", () => {
         </Provider>
       );
 
-      context = deep(<App />, { depth: Infinity });
-      expect(context.output()).toEqual(<h1>Hey!</h1>);
+      let context = mount(<App />);
+      expect(context.contains(<h1>Hey!</h1>)).toBe(true);
     });
 
     it("should accept ownProps as the second parameter to mapToProps", () => {
       const Comp = ({ message }) => <h1>{message}</h1>;
-      const ConnectedComp = connect((state, ownProps) => ({
+      const ConnectedComp = connect((_state, ownProps) => ({
         message: ownProps.someProp,
       }))(Comp);
 
@@ -226,8 +230,8 @@ describe("redux-zero - preact bindings", () => {
         </Provider>
       );
 
-      context = deep(<App />, { depth: Infinity });
-      expect(context.output()).toEqual(<h1>some value</h1>);
+      let context = mount(<App />);
+      expect(context.contains(<h1>some value</h1>)).toBe(true);
     });
 
     it("should provide the state and map again when component props change", () => {
@@ -252,11 +256,11 @@ describe("redux-zero - preact bindings", () => {
         </Provider>
       );
 
-      context = deep(<App name="foo" />, { depth: Infinity });
-      expect(context.output()).toEqual(<h1>hello</h1>);
+      let context = mount(<App name="foo" />);
+      expect(context.contains(<h1>hello</h1>)).toBe(true);
 
-      context.render(<App name="bar" />);
-      expect(context.output()).toEqual(<h1>bye</h1>);
+      context = mount(<App name="bar" />);
+      expect(context.contains(<h1>bye</h1>)).toBe(true);
     });
   });
 
@@ -278,11 +282,11 @@ describe("redux-zero - preact bindings", () => {
         </Provider>
       );
 
-      context = deep(<App />, { depth: Infinity });
-      expect(context.output()).toEqual(<h1>hello</h1>);
+      let context = mount(<App />);
+      expect(context.contains(<h1>hello</h1>)).toBe(true);
       store.setState({ message: "bye" });
-      context = deep(<App />, { depth: Infinity });
-      expect(context.output()).toEqual(<h1>bye</h1>);
+      context = mount(<App />);
+      expect(context.contains(<h1>bye</h1>)).toBe(true);
     });
 
     it("should provide the actions and subscribe to changes", () => {
@@ -290,7 +294,7 @@ describe("redux-zero - preact bindings", () => {
 
       const mapToProps = ({ count }) => ({ count });
 
-      const actions = (store) => ({
+      const actions = (_store) => ({
         increment: (state) => ({ count: state.count + 1 }),
       });
 
@@ -306,7 +310,7 @@ describe("redux-zero - preact bindings", () => {
         </Provider>
       );
 
-      context = deep(<App />, { depth: Infinity });
+      let context = mount(<App />);
       expect(context.find("h1").text()).toBe("0");
       context.find("[onClick]").simulate("click");
       context.find("[onClick]").simulate("click");
@@ -318,7 +322,7 @@ describe("redux-zero - preact bindings", () => {
 
       const mapToProps = ({ count }) => ({ count });
 
-      const actions = (store, ownProps) => ({
+      const actions = (_store, ownProps) => ({
         increment: (state) => ({ count: state.count + ownProps.add }),
       });
 
@@ -334,7 +338,7 @@ describe("redux-zero - preact bindings", () => {
         </Provider>
       );
 
-      context = deep(<App />, { depth: Infinity });
+      let context = mount(<App />);
       expect(context.find("h1").text()).toBe("0");
       context.find("[onClick]").simulate("click");
       context.find("[onClick]").simulate("click");
@@ -344,9 +348,9 @@ describe("redux-zero - preact bindings", () => {
     it("should peform async actions correctly", (done) => {
       store.setState({ count: 0 });
 
-      const Comp = ({ count, increment }) => (
-        <h1 onClick={increment}>{count}</h1>
-      );
+      // const Comp = ({ count, increment }) => (
+      //   <h1 onClick={increment}>{count}</h1>
+      // );
 
       const mapToProps = ({ count }) => ({ count });
 
@@ -389,7 +393,7 @@ describe("redux-zero - preact bindings", () => {
         </Provider>
       );
 
-      context = deep(<App />, { depth: Infinity });
+      let context = mount(<App />);
 
       context.find("[onClick]").simulate("click");
     });
@@ -409,7 +413,7 @@ describe("redux-zero - preact bindings", () => {
         </Provider>
       );
 
-      context = deep(<App />, { depth: Infinity });
+      let context = mount(<App />);
 
       expect(context.find("h1").text()).toBe("true");
     });
@@ -442,23 +446,27 @@ describe("redux-zero - preact bindings", () => {
         </Provider>
       );
 
-      context = deep(<App />, { depth: Infinity });
+      let context = mount(<App />);
 
-      expect(context.output()).toEqual(
-        <div>
-          parent hello <span>child hello</span>
-        </div>
-      );
+      expect(
+        context.contains(
+          <div>
+            parent hello <span>child hello</span>
+          </div>
+        )
+      ).toBe(true);
 
       store.setState({ message: "bye" });
 
-      context = deep(<App />, { depth: Infinity });
+      context = mount(<App />);
 
-      expect(context.output()).toEqual(
-        <div>
-          parent bye <span>child bye</span>
-        </div>
-      );
+      expect(
+        context.contains(
+          <div>
+            parent bye <span>child bye</span>
+          </div>
+        )
+      ).toBe(true);
     });
   });
 });
