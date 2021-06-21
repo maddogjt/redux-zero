@@ -5,7 +5,7 @@ import {
   devtoolsMiddleware,
   update,
   devTools,
-  // getOrAddAction,
+  getOrAddAction,
 } from "../../src/devtools/devtoolsMiddleware";
 
 const increment = ({ count }) => ({ count: count + 1 });
@@ -38,15 +38,15 @@ const jumpToState = {
   payload: { type: "JUMP_TO_STATE" },
   state: '{"count":4}',
 };
-  // const toggleAction = {
-  //   type: "DISPATCH",
-  //   payload: { type: "TOGGLE_ACTION", id: 1 },
-  //   state: `{"actionsById":{"0":{"action":{"type":"initialState"},"timestamp":1514964802390,"type":"PERFORM_ACTION"},
-  //     "1":{"action":{"type":"increment"},"timestamp":1514964812877,"type":"PERFORM_ACTION"},
-  //     "2":{"action":{"type":"decrement"},"timestamp":1514964817322,"type":"PERFORM_ACTION"}},
-  //     "computedStates":[{"state":{"count":1}},  {"state":{"count":2}},{"state":{"count":1}}],
-  //     "currentStateIndex":2,"nextActionId":3,"skippedActionIds":[],"stagedActionIds":[0,1,2]}`,
-  // };
+  const toggleAction = {
+    type: "DISPATCH",
+    payload: { type: "TOGGLE_ACTION", id: 1 },
+    state: `{"actionsById":{"0":{"action":{"type":"initialState"},"timestamp":1514964802390,"type":"PERFORM_ACTION"},
+      "1":{"action":{"type":"increment"},"timestamp":1514964812877,"type":"PERFORM_ACTION"},
+      "2":{"action":{"type":"decrement"},"timestamp":1514964817322,"type":"PERFORM_ACTION"}},
+      "computedStates":[{"state":{"count":1}},  {"state":{"count":2}},{"state":{"count":1}}],
+      "currentStateIndex":2,"nextActionId":3,"skippedActionIds":[],"stagedActionIds":[0,1,2]}`,
+  };
 
 const StoreStub = {
   middleware: null,
@@ -57,7 +57,7 @@ const StoreStub = {
   subscribe: null,
 };
 
-jest.useFakeTimers();
+jest.useFakeTimers('legacy');
 
 describe("devtoolsMiddleware", () => {
   it("should jump to new action", () => {
@@ -75,40 +75,42 @@ describe("devtoolsMiddleware", () => {
     expect(store.getState()).toEqual({ count: 4 });
   });
 
-  // it("should replay actions to current action", () => {
-  //   const initialState = { count: 1 };
-  //   const middlewares = applyMiddleware(devtoolsMiddleware);
-  //   let subscribeCalled = false;
+  it("should replay actions to current action", () => {
+    const initialState = { count: 1 };
+    const middlewares = applyMiddleware(devtoolsMiddleware);
+    let subscribeCalled = false;
 
-  //   const store = createStore(initialState, middlewares);
-  //   const actions = bindActions(getActions, store);
+    const store = createStore(initialState, middlewares);
+    const actions = bindActions(getActions, store);
 
-  //   devTools.instance = {
-  //     ...StoreStub,
-  //     send: () => {},
-  //     subscribe: () => (subscribeCalled = true),
-  //   };
+    devTools.instance = {
+      ...StoreStub,
+      send: () => {},
+      subscribe: () => (subscribeCalled = true),
+    };
 
-  //   Object.keys(actions).forEach((key) => {
-  //     getOrAddAction({ name: key, type: "" }, actions[key]);
-  //   });
-  //   expect((<{ count: number }>store.getState()).count).toBe(1);
+    Object.keys(actions).forEach((key) => {
+      getOrAddAction({ name: key, type: "" }, actions[key]);
+    });
+    expect((<{ count: number }>store.getState()).count).toBe(1);
 
-  //   const storeUpdate = update.bind(store);
-  //   storeUpdate(toggleAction);
-  //   jest.runAllTimers();
+    const storeUpdate = update.bind(store);
+    storeUpdate(toggleAction);
+    jest.runAllTimers();
 
-  //   expect(setTimeout).toHaveBeenCalledTimes(2);
-  //   expect(store.getState()).toEqual({ count: 2 });
+    expect(setTimeout).toHaveBeenCalledTimes(2);
+    expect(store.getState()).toEqual({ count: 2 });
 
-  //   const toggleAction2 = { ...toggleAction };
-  //   toggleAction2.payload.id = 2;
-  //   storeUpdate(toggleAction2);
-  //   jest.runAllTimers();
+    const toggleAction2 = { ...toggleAction };
+    toggleAction2.payload.id = 2;
+    storeUpdate(toggleAction2);
+    jest.runAllTimers();
 
-  //   expect(setTimeout).toHaveBeenCalledTimes(2 + 3);
-  //   expect(store.getState()).toEqual({ count: 1 });
-  // });
+    expect(subscribeCalled).toBe(true);
+
+    expect(setTimeout).toHaveBeenCalledTimes(2 + 3);
+    expect(store.getState()).toEqual({ count: 1 });
+  });
 });
 
 describe("sendActions", () => {
