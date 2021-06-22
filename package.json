@@ -37,7 +37,7 @@
       "ts",
       "tsx",
       "js"
-    ],  
+    ],
     "setupFilesAfterEnv": [
       "<rootDir>/test/setup.ts"
     ],
@@ -71,7 +71,6 @@
     "enzyme": "3.11.0",
     "enzyme-adapter-preact-pure": "3.1.0",
     "esbuild": "0.12.9",
-    "husky": "^6.0.0",
     "jest": "27.0.4",
     "preact": "10.5.13",
     "prettier": "2.3.1",
