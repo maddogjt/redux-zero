@@ -1,5 +1,5 @@
 # Logs
-logs
+logs/
 *.log
 npm-debug.log*
 .rpt2_cache/
@@ -16,25 +16,11 @@ lib-cov
 # Coverage directory used by tools like istanbul
 coverage
 
-# Grunt intermediate storage (http://gruntjs.com/creating-plugins#storing-task-files)
-.grunt
 
-# node-waf configuration
-.lock-wscript
-
-# Compiled binary addons (http://nodejs.org/api/addons.html)
-build/Release
-
-# Generated directories
-.sass-cache/
-_site/
 
 # Dependency directory
 node_modules/
-dist/
 lib/
-es/
-types/
 
 # Optional npm cache directory
 .npm
