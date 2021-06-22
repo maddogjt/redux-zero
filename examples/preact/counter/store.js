@@ -1,4 +1,4 @@
-import createStore from "redux-zero";
+import createStore from "predux";
 
 const initialState = { count: 1 };
 

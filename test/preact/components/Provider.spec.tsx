@@ -5,7 +5,7 @@ import { mount } from "enzyme";
 import { createStore, Store } from "../../../src";
 import { Provider } from "../../../src/preact";
 
-describe("redux-zero - react bindings", () => {
+describe("predux - react bindings", () => {
   const listener = jest.fn();
   let store: Store<any>;
   beforeEach(() => {

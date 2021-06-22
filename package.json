@@ -1,6 +1,6 @@
 {
-  "name": "redux-zero",
-  "version": "5.1.7",
+  "name": "predux",
+  "version": "0.1.0",
   "description": "",
   "main": "lib/",
   "types": "lib/",
@@ -15,7 +15,7 @@
     "check": "yarn run compile && yarn run format && yarn run lint && yarn run test",
     "pretest": "yarn run build",
     "build": "yarn run compile",
-    "unknown-prepublish": "yarn run build",
+    "unknown-prepublish": "yarn run build"
   },
   "author": "Matheus Lima <matheusml90@gmail.com>",
   "files": [
@@ -24,7 +24,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/redux-zero/redux-zero"
+    "url": "https://github.com/maddogjt/predux"
   },
   "jest": {
     "testEnvironment": "jsdom",
@@ -61,7 +61,7 @@
     "enzyme": "3.11.0",
     "enzyme-adapter-preact-pure": "3.1.0",
     "esbuild": "0.12.9",
-    "jest": "27.0.4",
+    "jest": "27.0.5",
     "preact": "10.5.13",
     "prettier": "2.3.1",
     "rimraf": "3.0.2",

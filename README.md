@@ -4,16 +4,16 @@
 </h1>
 <p align="center" style="font-size: 1.2rem;">A lightweight state container based on Redux</p>
 
-> Read [the intro blog post](https://medium.com/@matheusml/introducing-redux-zero-bea42214c7ee)
+> Read [the intro blog post](https://medium.com/@matheusml/introducing-predux-bea42214c7ee)
 
 <hr />
 
-[![codacy](https://api.codacy.com/project/badge/Grade/a4adf13156bd4441ae132d2d9dc72186)](https://www.codacy.com/app/matheusml/redux-zero?utm_source=github.com&utm_medium=referral&utm_content=redux-zero/redux-zero&utm_campaign=Badge_Grade)
-[![build](https://img.shields.io/travis/redux-zero/redux-zero/master.svg)](https://travis-ci.org/redux-zero/redux-zero)
-[![npm](https://img.shields.io/npm/v/redux-zero.svg)](https://www.npmjs.com/package/redux-zero)
-[![downloads](https://img.shields.io/npm/dm/redux-zero.svg)](https://www.npmjs.com/package/redux-zero)
-[![license](https://img.shields.io/github/license/redux-zero/redux-zero.svg)]()
-[![dependencies](https://img.shields.io/david/redux-zero/redux-zero.svg)]()
+[![codacy](https://api.codacy.com/project/badge/Grade/a4adf13156bd4441ae132d2d9dc72186)](https://www.codacy.com/app/matheusml/predux?utm_source=github.com&utm_medium=referral&utm_content=predux/predux&utm_campaign=Badge_Grade)
+[![build](https://img.shields.io/travis/predux/predux/master.svg)](https://travis-ci.org/predux/predux)
+[![npm](https://img.shields.io/npm/v/predux.svg)](https://www.npmjs.com/package/predux)
+[![downloads](https://img.shields.io/npm/dm/predux.svg)](https://www.npmjs.com/package/predux)
+[![license](https://img.shields.io/github/license/predux/predux.svg)]()
+[![dependencies](https://img.shields.io/david/predux/predux.svg)]()
 
 ## Table of Contents
 
@@ -34,7 +34,7 @@
 To install the stable version:
 
 ```
-npm i redux-zero
+npm i predux
 ```
 
 This assumes that you’re using [npm](https://www.npmjs.com/) with a module bundler like [webpack](https://webpack.js.org/)
@@ -44,32 +44,32 @@ This assumes that you’re using [npm](https://www.npmjs.com/) with a module bun
 **ES2015+:**
 
 ```js
-import createStore from "redux-zero";
-import { Provider, connect } from "redux-zero/react";
+import createStore from "predux";
+import { Provider, connect } from "predux/react";
 ```
 
 **TypeScript:**
 
 ```js
-import * as createStore from "redux-zero";
-import { Provider, connect } from "redux-zero/react";
+import * as createStore from "predux";
+import { Provider, connect } from "predux/react";
 ```
 
 **CommonJS:**
 
 ```js
-const createStore = require("redux-zero");
-const { Provider, connect } = require("redux-zero/react");
+const createStore = require("predux");
+const { Provider, connect } = require("predux/react");
 ```
 
 **UMD:**
 
 ```html
 <!-- the store -->
-<script src="https://unpkg.com/redux-zero/dist/redux-zero.min.js"></script>
+<script src="https://unpkg.com/predux/dist/predux.min.js"></script>
 
 <!-- for preact -->
-<script src="https://unpkg.com/redux-zero/preact/index.min.js"></script>
+<script src="https://unpkg.com/predux/preact/index.min.js"></script>
 ```
 
 ## Example
@@ -80,7 +80,7 @@ First, create your store. This is where your application state will live:
 
 ```js
 /* store.js */
-import createStore from "redux-zero";
+import createStore from "predux";
 
 const initialState = { count: 1 };
 const store = createStore(initialState);
@@ -107,7 +107,7 @@ Now create your component. With **Redux Zero** your component can focus 100% on 
 ```js
 /* Counter.js */
 import React from "react";
-import { connect } from "redux-zero/react";
+import { connect } from "predux/react";
 
 import actions from "./actions";
 
@@ -133,7 +133,7 @@ Last but not least, plug the whole thing in your index file:
 /* index.js */
 import React from "react";
 import { render } from "react-dom";
-import { Provider } from "redux-zero/react";
+import { Provider } from "predux/react";
 
 import store from "./store";
 
@@ -160,7 +160,7 @@ store.reset();
 
 ### More examples
 
-- [Preact](https://github.com/redux-zero/redux-zero/tree/master/examples/preact/counter)
+- [Preact](https://github.com/predux/predux/tree/master/examples/preact/counter)
 
 ## Actions
 
@@ -229,8 +229,8 @@ const App = () => (
 There's an utility function to combine actions on Redux Zero:
 
 ```js
-import { connect } from "redux-zero/react";
-import { combineActions } from "redux-zero/utils";
+import { connect } from "predux/react";
+import { combineActions } from "predux/utils";
 
 import Component from "./Component";
 import firstActions from "../../actions/firstActions";
@@ -250,7 +250,7 @@ On this example we listen to push notifications that sends data to our React Nat
 
 ```js
 import firebase from "react-native-firebase";
-import { bindActions } from "redux-zero/utils";
+import { bindActions } from "predux/utils";
 import store from "../store";
 import actions from "../actions";
 
@@ -317,8 +317,8 @@ The method signature for the middleware was inspired by redux. The main differen
 
 ```js
 /* store.js */
-import createStore from "redux-zero";
-import { applyMiddleware } from "redux-zero/middleware";
+import createStore from "predux";
+import { applyMiddleware } from "predux/middleware";
 
 const logger = store => (next, args) => action => {
   console.log("current state", store.getState());
@@ -340,9 +340,9 @@ You can setup DevTools middleware in store.js to connect with Redux DevTools and
 
 ```js
 /* store.js */
-import createStore from "redux-zero";
-import { applyMiddleware } from "redux-zero/middleware";
-import { connect } from "redux-zero/devtools";
+import createStore from "predux";
+import { applyMiddleware } from "predux/middleware";
+import { connect } from "predux/devtools";
 
 const initialState = { count: 1 };
 const middlewares = connect ? applyMiddleware(connect(initialState)) : [];
@@ -353,9 +353,9 @@ export default store;
 
 Also, these are unofficial tools, maintained by the community:
 
-- [Redux-Zero Tools](https://github.com/nyteshade/rzero-tools)
-- [redux-zero persist middleware](https://github.com/axetroy/redux-zero-persist)
-- [redux-zero logger middleware](https://github.com/axetroy/redux-zero-logger)
+- [predux Tools](https://github.com/nyteshade/rzero-tools)
+- [predux persist middleware](https://github.com/axetroy/predux-persist)
+- [predux logger middleware](https://github.com/axetroy/predux-logger)
 - [redux loading middleware](https://github.com/andre-araujo/redux-loading-middleware)
 
 ## TypeScript
@@ -364,7 +364,7 @@ You can use the `BoundActions` type to write your React component props in a typ
 safe way. Example:
 
 ```typescript
-import { BoundActions } from "redux-zero/types/Actions";
+import { BoundActions } from "predux/types/Actions";
 
 interface State {
   loading: boolean;
@@ -420,8 +420,8 @@ _Help is needed for both of these_
 
 ## Docs
 
-- [Full Docs](https://matheusml1.gitbooks.io/redux-zero-docs/content/)
-- [Contributing](https://github.com/redux-zero/redux-zero/blob/master/CONTRIBUTING.md)
-- [Changelog](https://github.com/redux-zero/redux-zero/blob/master/CHANGELOG.md)
-- [Code of Conduct](https://github.com/redux-zero/redux-zero/blob/master/CODE_OF_CONDUCT.md)
-- [License](https://github.com/redux-zero/redux-zero/blob/master/LICENSE)
+- [Full Docs](https://matheusml1.gitbooks.io/predux-docs/content/)
+- [Contributing](https://github.com/predux/predux/blob/master/CONTRIBUTING.md)
+- [Changelog](https://github.com/predux/predux/blob/master/CHANGELOG.md)
+- [Code of Conduct](https://github.com/predux/predux/blob/master/CODE_OF_CONDUCT.md)
+- [License](https://github.com/predux/predux/blob/master/LICENSE)

@@ -5,7 +5,7 @@ import { mount } from "enzyme";
 import { createStore, Store } from "../../../src";
 import { Provider, Connect, connect } from "../../../src/preact";
 
-describe("redux-zero - preact bindings", () => {
+describe("predux - preact bindings", () => {
   let store: Store<any>, listener;
   beforeEach(() => {
     store = createStore({});

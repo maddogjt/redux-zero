@@ -1,6 +1,6 @@
 import "./style";
 
-import { Provider } from "redux-zero/preact";
+import { Provider } from "predux/preact";
 
 import store from "./store";
 

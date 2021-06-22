@@ -1,6 +1,6 @@
 import { createStore } from "../../src";
 
-describe("redux-zero - the store", () => {
+describe("predux - the store", () => {
   const listener = jest.fn();
   const initialState = {};
   let store, unsubscribe;

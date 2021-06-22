@@ -80,7 +80,7 @@ note:
 If using createStore() with partial initial state, it will inferred to incorrect type.
 
 ```tsx
-import createStore from "redux-zero";
+import createStore from "predux";
 
 interface ReduxState {
   a: number;
@@ -147,7 +147,7 @@ const store = createStore<ReduxState>({ a: 3, b: 3 }); // Store<ReduxState>
 * Add `combineActions` function
 
 ```js
-import { combineActions } from "redux-zero/utils";
+import { combineActions } from "predux/utils";
 ```
 
 ### 4.10.1
@@ -179,7 +179,7 @@ import { combineActions } from "redux-zero/utils";
 * Add bindActions export
 
 ```js
-import { bindActions } from "redux-zero/utils";
+import { bindActions } from "predux/utils";
 ```
 
 ### 4.7.0
@@ -236,7 +236,7 @@ const mapActions = ({ setState }) => ({
 
 * Fix typings, remove unsubscribe from Store interface since isn't used
 
-[info] Using redux-zero along with TypeScript gives an error when implementing:
+[info] Using predux along with TypeScript gives an error when implementing:
 `<Provider store={store}><Whatever/></Provider>` due to the actual store object
 and the expected attribute differ.
 
@@ -257,7 +257,7 @@ and the expected attribute differ.
 This is now working for both TypeScript and JavaScript:
 
 ```javascript
-import { Provider } from "redux-zero/react";
+import { Provider } from "predux/react";
 ```
 
 ### 4.3.0
@@ -280,7 +280,7 @@ const App = connect()(({ message }) => <h1>{message}</h1>);
 
 * Binding actions instead of coupling them to the store.
 
-Right now, actions must import an instance of the store in order to invoke `setState()`, as discussed [here](https://github.com/redux-zero/redux-zero/issues/16). This version solved that problem. Now it's way easier to test the actions, because they are simply pure functions:
+Right now, actions must import an instance of the store in order to invoke `setState()`, as discussed [here](https://github.com/predux/predux/issues/16). This version solved that problem. Now it's way easier to test the actions, because they are simply pure functions:
 
 ```javascript
 const createActions = store => ({
@@ -301,7 +301,7 @@ const App = connect(mapToProps, createActions)(({ count, increment }) => (
 * Include `Connect` component that can be used with a render callback as an alternative to the `connect` HOC
 
 ```javascript
-import { Connect } from 'redux-zero/react'
+import { Connect } from 'predux/react'
 
 // ...
 
@@ -323,8 +323,8 @@ render() {
 * Separating `Provider` and `connect` from `createStore`. With this we'll be able to build for different frameworks:
 
 ```javascript
-import createStore from "redux-zero";
-import { Provider, connect } from "redux-zero/react";
+import createStore from "predux";
+import { Provider, connect } from "predux/react";
 ```
 
 ### 3.0.0

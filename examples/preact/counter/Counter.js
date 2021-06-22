@@ -1,4 +1,4 @@
-import { Connect } from "redux-zero/preact";
+import { Connect } from "predux/preact";
 
 import actions from "./actions";
 
