@@ -6508,6 +6508,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"preact@npm:^10.5.14":
+  version: 10.5.14
+  resolution: "preact@npm:10.5.14"
+  checksum: 1cb6f0eecd0f1de15621efae40f86790dac5a5eb68ca2a02790685c234055fc6efe60def719a0a90b747ed35b1b5099fc7a3e33cf0d4972bf9b1e3895cf02efa
+  languageName: node
+  linkType: hard
+
 "predux@workspace:.":
   version: 0.0.0-use.local
   resolution: "predux@workspace:."
@@ -6536,6 +6543,7 @@ __metadata:
     fs-extra: 10.0.0
     jest: 27.0.6
     npm-run-all: 4.1.5
+    preact: ^10.5.14
     prettier: 2.3.2
     rimraf: 3.0.2
     ts-jest: 27.0.3
