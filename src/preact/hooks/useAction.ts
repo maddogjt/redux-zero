@@ -1,11 +1,12 @@
 import { useMemo } from "preact/hooks";
 import { useStore } from "./useStore";
-import { bindActions } from "../../utils";
-import { Action } from "../../types";
+// import { bindAction, bindActions } from "../../utils";
+// import { Action } from "../../types";
+import { bindAction3 } from "../../utils/bindAction";
 
 // tuple<T extends any[]>(...args: T)
 
-export declare type TypedAction<TState, TArgs  extends any[]> = (
+export declare type TypedAction<TState, TArgs extends any[]> = (
   state: TState,
   ...args: TArgs
 ) => Promise<Partial<TState>> | Partial<TState>;
@@ -21,16 +22,12 @@ export declare type TypedAction<TState, TArgs  extends any[]> = (
 //   [P in keyof ReturnType<T>]: FuncTypeWithoutFirstArg<ReturnType<T>[P]>;
 // };
 
-
-export function useAction<TState, TArgs extends any[]>(
+export function useAction<TState, TArgs extends unknown[] = unknown[]>(
   action: TypedAction<TState, TArgs>
 ): (...args: TArgs) => Promise<void> | void {
   const store = useStore<TState>();
 
   return useMemo(() => {
-    return bindActions<TState, { single: Action<TState> }>(
-      { single: action as Action<TState> },
-      store
-    ).single;
+    return bindAction3(store, action);
   }, [store, action]);
 }

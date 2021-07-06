@@ -1,7 +1,9 @@
-export interface Store<S = any> {
+import { DefaultRootState } from "./DefaultRootState";
+
+export interface Store<S = DefaultRootState> {
   middleware(...args: any[]): void;
   setState(f: ((state: S) => Partial<S>) | Partial<S>): void;
-  subscribe(f: Function): () => void;
+  subscribe(f: (state: S) => void): () => void;
   getState(): S;
   reset(): void;
 }

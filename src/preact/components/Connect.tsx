@@ -1,7 +1,7 @@
 /** @jsx h */
 import { h, Component } from "preact";
 
-import shallowEqual from "../../utils/shallowEqual";
+import { shallowEqual } from "../../utils/shallowEqual";
 import bindActions from "../../utils/bindActions";
 
 export class Connect extends Component<any, {}> {
@@ -40,7 +40,7 @@ export class Connect extends Component<any, {}> {
       this.setState(mapped);
     }
   };
-  render({ children }: {children:any}, state: any, { store }: any) {
+  render({ children }: { children: any }, state: any, { store }: any) {
     const child = (children && children[0]) || children;
     return child({ store, ...state, ...this.actions });
   }
@@ -51,7 +51,7 @@ export class Connect extends Component<any, {}> {
 // in the future this might become unecessary by updating typings
 const ConnectUntyped = Connect as any;
 
-export default function connect(mapToProps: any, actions = {}) {
+export function connect(mapToProps: any, actions = {}) {
   return (Child: any) =>
     class ConnectWrapper extends Component<any, {}> {
       render() {
@@ -59,7 +59,9 @@ export default function connect(mapToProps: any, actions = {}) {
 
         return (
           <ConnectUntyped {...props} mapToProps={mapToProps} actions={actions}>
-            {(mappedProps: h.JSX.IntrinsicAttributes) => <Child {...mappedProps} {...props} />}
+            {(mappedProps: h.JSX.IntrinsicAttributes) => (
+              <Child {...mappedProps} {...props} />
+            )}
           </ConnectUntyped>
         );
       }

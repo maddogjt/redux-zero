@@ -1,6 +1,3 @@
-import bindAction from "./bindAction";
-import bindActions from "./bindActions";
-import combineActions from "./combineActions";
-
-
-export { bindAction, bindActions, combineActions };
+export { bindAction3 } from "./bindAction";
+export { bindActions } from "./bindActions";
+export { combineActions } from "./combineActions";

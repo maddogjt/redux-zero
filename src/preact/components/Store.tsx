@@ -1,8 +1,8 @@
-import preact, {createContext} from "preact";
-import { Store } from "../../interfaces/Store"; 
+import preact, { createContext } from "preact";
+import { Store } from "../../interfaces/Store";
 // import { useSelector } from "../hooks";
 
-export const Context: preact.Context<any> = createContext(undefined);
+const gContext: preact.Context<unknown> = createContext(null);
 
 // interface TypedContext<TState = any> {
 //   context: preact.Context<Store<TState>>;
@@ -11,16 +11,13 @@ export const Context: preact.Context<any> = createContext(undefined);
 
 // * const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector;
 export interface TypedUseSelectorHook<TState> {
-  <TSelected>(
-    selector: (state: TState) => TSelected
-  ): TSelected;
+  <TSelected>(selector: (state: TState) => TSelected): TSelected;
 }
 
 // const useTypedSelector: TypedUseSelectorHook<string> = useSelector;
 
-
-export function getTypedContext<TStore>() : preact.Context<Store<TStore>> {
-    return Context as preact.Context<Store<TStore>>;
+export function getTypedContext<TStore>(): preact.Context<Store<TStore>> {
+  return gContext as preact.Context<Store<TStore>>;
 }
 
 // function createChild<TStore, PT>(
@@ -33,11 +30,10 @@ export function getTypedContext<TStore>() : preact.Context<Store<TStore>> {
 //         );
 //   }
 
-
 // function Connect<TStore, PT>(props: PT) {
 //     const StoreContext = getStoreContext<TStore>();
 //    return (Child: (props: PT) => JSX.Element) => {
-//     return createChild(this.props, Child, StoreContext);    
+//     return createChild(this.props, Child, StoreContext);
 //    }
 //   );
 // }
@@ -59,7 +55,6 @@ export function getTypedContext<TStore>() : preact.Context<Store<TStore>> {
 //       }
 //     };
 // }
-
 
 // function App() {
 //   return (

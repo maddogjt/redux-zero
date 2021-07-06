@@ -48,7 +48,7 @@ export interface DevTools {
   instance: DevToolsStore | null;
 }
 
-let devTools: DevTools = { instance: null };
+const devTools: DevTools = { instance: null };
 let connect;
 const nextActions: NextAction[] = [];
 const REPLAY_INTERVAL = 10;
@@ -77,7 +77,7 @@ function replay(store: Store, message: Message): void {
     }
   };
   const keys = Object.keys(state.actionsById).filter(
-    x => parseInt(x, 10) <= message.payload.id
+    (x) => parseInt(x, 10) <= message.payload.id
   );
   let i = 0;
   setTimeout(function run() {
@@ -110,28 +110,27 @@ function subscribe(store: Store, middleware: { initialized?: boolean }) {
   }
 }
 
-const devtoolsMiddleware = (store: Store) => (next: Function, args: any) => (
-  action: Action
-) => {
-  let result = next(action);
-  subscribe(store, devtoolsMiddleware as { initialized?: boolean });
-  getOrAddAction(action, () => next(action));
-  const reduxAction: ReduxAction = { type: action.name, args: args };
-  if (result && result.then) {
-    return result.then(
-      () =>
-        devTools.instance &&
-        devTools.instance.send(reduxAction, store.getState())
-    );
-  }
-  if (devTools.instance) {
-    devTools.instance.send(reduxAction, store.getState());
-  }
-  return result;
-};
+const devtoolsMiddleware =
+  (store: Store) => (next: Function, args: any) => (action: Action) => {
+    const result = next(action);
+    subscribe(store, devtoolsMiddleware as { initialized?: boolean });
+    getOrAddAction(action, () => next(action));
+    const reduxAction: ReduxAction = { type: action.name, args: args };
+    if (result && result.then) {
+      return result.then(
+        () =>
+          devTools.instance &&
+          devTools.instance.send(reduxAction, store.getState())
+      );
+    }
+    if (devTools.instance) {
+      devTools.instance.send(reduxAction, store.getState());
+    }
+    return result;
+  };
 
 if (typeof window === "object" && (<any>window).__REDUX_DEVTOOLS_EXTENSION__) {
-  connect = function(initialState: object, options: object) {
+  connect = function (initialState: object, options: object) {
     devTools.instance = (<any>window).__REDUX_DEVTOOLS_EXTENSION__.connect(
       options
     );

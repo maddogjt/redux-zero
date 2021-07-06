@@ -1,5 +1,4 @@
-import connect, { Connect } from "./components/Connect";
-import Provider from "./components/Provider";
-export * as hooks from "./hooks";
-
-export { connect, Provider, Connect };
+export { connect, Connect } from "./components/Connect";
+export { Provider } from "./components/Provider";
+export * from "./hooks";
+export { getTypedContext } from "./components/Store";

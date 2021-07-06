@@ -2,24 +2,52 @@
   "name": "predux",
   "version": "0.1.0",
   "description": "",
-  "main": "lib/",
-  "types": "lib/",
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "index.d.ts",
+  "typesVersions": {
+    ">=4.2": {
+      "*": [
+        "dist/types/*"
+      ]
+    }
+  },
+  "--exports": {
+    ".": "./lib/index.js",
+    "./middleware": "./lib/middleware/index.js",
+    "./utils": "./lib/utils/index.js",
+    "./devtools": "./lib/devtools/index.js",
+    "./package.json": "./package.json"
+  },
   "scripts": {
     "clean": "rimraf lib dist es coverage types",
-    "compile": "rimraf lib && tsc --pretty",
+    "--compile": "rimraf lib && tsc --pretty",
+    "compile": "tsc -b ./src/tsconfig.cjs.json ./src/tsconfig.cjs.spec.json ./src/tsconfig.esm.json ./src/tsconfig.types.json ./src/tsconfig.types.spec.json",
+    "compile:mini": "tsc -b ./src/tsconfig.esm.json",
     "compile:watch": "tsc --pretty --watch",
-    "lint": "tslint src/**/*.ts src/**/*.tsx",
+    "build:clean": "rimraf ./dist",
+    "build:package": "npm-run-all build:clean compile && node ./tools/generate-alias.js",
+    "lint": "eslint --ext .ts --ext .tsx src",
+    "ignore": " 'src/**/*.@(ts|tsx)'",
     "test": "jest",
     "test:watch": "jest --watch",
-    "format": "prettier --write \"config/**/*.js\" \"src/**/*.ts\" \"src/**/*.tsx\"",
-    "check": "yarn run compile && yarn run format && yarn run lint && yarn run test",
-    "pretest": "yarn run build",
-    "build": "yarn run compile",
-    "unknown-prepublish": "yarn run build"
+    "format": "prettier --write \"config/**/*.js\" \"src/**/*.ts\" \"src/**/*.tsx\""
   },
-  "author": "Matheus Lima <matheusml90@gmail.com>",
+  "author": "Jason Tranchida <projects@projects.land>",
   "files": [
-    "lib"
+    "dist/cjs/**/!(*.tsbuildinfo)",
+    "dist/esm/**/!(*.tsbuildinfo)",
+    "dist/types/**/!(*.tsbuildinfo)",
+    "util",
+    "middleware",
+    "preact",
+    "src",
+    "CHANGELOG.md",
+    "CODE_OF_CONDUCT.md",
+    "LICENSE.txt",
+    "package.json",
+    "README.md",
+    "tsconfig.json"
   ],
   "license": "MIT",
   "repository": {
@@ -57,21 +85,30 @@
     "@babel/runtime": "7.14.6",
     "@types/enzyme": "3.10.8",
     "@types/jest": "26.0.23",
+    "@typescript-eslint/eslint-plugin": "4.28.0",
+    "@typescript-eslint/parser": "4.28.0",
     "cross-env": "7.0.3",
     "enzyme": "3.11.0",
     "enzyme-adapter-preact-pure": "3.1.0",
-    "esbuild": "0.12.9",
+    "eslint": "7.29.0",
+    "eslint-config-prettier": "8.3.0",
+    "eslint-plugin-prettier": "3.4.0",
+    "fs-extra": "10.0.0",
     "jest": "27.0.5",
-    "preact": "10.5.13",
+    "npm-run-all": "4.1.5",
     "prettier": "2.3.1",
     "rimraf": "3.0.2",
     "ts-jest": "27.0.3",
     "tslib": "2.3.0",
-    "tslint": "6.1.3",
     "typescript": "4.3.4"
   },
   "peerDependencies": {
-    "preact": "10.5.13"
+    "preact": "10.x"
+  },
+  "peerDependenciesMeta": {
+    "preact": {
+      "optional": true
+    }
   },
   "keywords": [
     "redux",

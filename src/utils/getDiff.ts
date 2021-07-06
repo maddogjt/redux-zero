@@ -1,23 +1,27 @@
-import shallowEqual from "./shallowEqual";
+import { shallowEqual } from "./shallowEqual";
 
-function differs(a: any, b: any) {
+type ObjLike = Record<string, unknown>;
+function differs(a: unknown, b: unknown): boolean {
   if (a !== b) {
     return true;
-  } else if (a && typeof a === "object") {
-    return !shallowEqual(a, b);
+  } else if (a && typeof a === "object" && b && typeof b === "object") {
+    return !shallowEqual(a as ObjLike, b as ObjLike);
   }
   return false;
 }
 
-export default function getDiff(newData: object, oldData: object) {
-  const diff = {};
+export default function getDiff(
+  newData: ObjLike,
+  oldData: ObjLike
+): { diff: ObjLike; changed: boolean } {
+  const diff: ObjLike = {};
   let changed = false;
-  for (let key in newData) {
+  for (const key in newData) {
     const val = newData[key];
     if (differs(oldData[key], val)) {
       changed = true;
-      if (typeof val === "object" && typeof val.getMonth !== "function") {
-        diff[key] = val.constructor === Array ? val.slice(0) : { ...val };
+      if (typeof val === "object" && typeof val["getMonth"] !== "function") {
+        diff[key] = Array.isArray(val) ? val.slice(0) : { ...val };
       } else {
         diff[key] = val;
       }

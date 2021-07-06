@@ -1,0 +1,7 @@
+{
+  "name": "predux/devtools",
+  "types": "../dist/types/devtools/index.d.ts",
+  "main": "../dist/cjs/devtools/index.js",
+  "module": "../dist/esm/devtools/index.js",
+  "sideEffects": false
+}

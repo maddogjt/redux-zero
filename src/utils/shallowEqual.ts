@@ -1,8 +1,17 @@
-export default function shallowEqual(
-  a: object & { [key: string]: any },
-  b: object & { [key: string]: any }
-) {
-  for (const i in a) if (a[i] !== b[i]) return false;
-  for (const i in b) if (!(i in a)) return false;
+export function shallowEqual<ObjLike extends Record<string, unknown>>(
+  a: ObjLike,
+  b: ObjLike
+): boolean {
+  if (Object.is(a, b)) return true;
+  if (!a || !b) return false;
+
+  const aK = Object.keys(a);
+  const bK = Object.keys(b);
+
+  if (aK.length !== bK.length) return false;
+  const hok = Object.prototype.hasOwnProperty.bind(b);
+  for (const key in aK) {
+    if (a[key] !== b[key] || !hok(key)) return false;
+  }
   return true;
 }

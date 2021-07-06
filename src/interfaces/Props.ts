@@ -1,7 +1,8 @@
 import { JSX } from "preact";
-import {Store} from "./Store";
+import { DefaultRootState } from "./DefaultRootState";
+import { Store } from "./Store";
 
-export interface Props<S = any> {
+export interface Props<S = DefaultRootState> {
   store: Store<S>;
   children: JSX.Element[] | JSX.Element;
 }
