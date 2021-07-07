@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import Store from "../interfaces/Store";
+import { Store } from "../interfaces";
 
 // export type SyncAction<TState, TArgs extends unknown[]> = (
 //   state: TState,

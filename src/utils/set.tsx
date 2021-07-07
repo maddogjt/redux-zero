@@ -1,5 +1,4 @@
-import { DefaultRootState } from "../interfaces/DefaultRootState";
-import Store from "../interfaces/Store";
+import { DefaultRootState, Store } from "../interfaces";
 
 function isPromise<T>(s: T | Promise<T>): s is Promise<T> {
   return typeof s === "object" && typeof s["then"] === "function";
@@ -28,5 +27,3 @@ export function set<S = DefaultRootState>(
   }
   return;
 }
-
-export default set;

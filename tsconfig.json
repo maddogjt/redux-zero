@@ -16,14 +16,14 @@
     "noImplicitReturns": true,
     "moduleResolution": "node",
     "stripInternal": true,
-    
+    "alwaysStrict": true,
     "noEmit": true,
     "lib": [
       "esnext",
       "dom"
     ],
     "target": "esnext",
-    "baseUrl": ".",
+    "baseUrl": "./src",
     "paths": {
       // "preact": ["./node_modules/preact/dist/*"],
       "predux": ["./src/index"],

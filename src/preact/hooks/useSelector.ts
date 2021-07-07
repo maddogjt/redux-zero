@@ -1,7 +1,8 @@
 import { useEffect, useLayoutEffect, useReducer, useRef } from "preact/hooks";
+import { DefaultRootState } from "../../interfaces";
 import { useStore } from "./useStore";
 
-type Selector<TState, TSelected> = (state: TState) => TSelected;
+type Selector<TSelected, S=DefaultRootState> = (state: S) => TSelected;
 function refEquality<TS>(a: TS, b: TS) {
   return a === b;
 }
@@ -35,11 +36,11 @@ const useIsomorphicLayoutEffect =
 //     ): TSelected;
 //   }
 
-export function useSelector<TState, TSelected = unknown>(
-  selector: Selector<TState, TSelected>
+export function useSelector<S=DefaultRootState, TSelected = unknown>(
+  selector: Selector<TSelected, S>
 ): TSelected {
-  type Sel = Selector<TState, TSelected>;
-  const store = useStore<TState>();
+  type Sel = Selector<TSelected, S>;
+  const store = useStore<S>();
   const [, forceRerender] = useReducer((s) => s + 1, 0);
 
   const selectorRef = useRef<Sel | undefined>(undefined);

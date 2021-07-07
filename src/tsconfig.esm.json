@@ -1,9 +1,13 @@
 {
   "extends": "./tsconfig.base.json",
   "compilerOptions": {
-    "module": "esnext",
-    "importHelpers": true,
+    "module": "es2015",
     "target": "es2015",
-    "outDir": "../dist/esm"
+    "outDir": "../dist/esm",
+    "removeComments": false,
+    "declaration": true,
+    "declarationMap": true,
+    "declarationDir": "../dist/types",
+
   }
 }

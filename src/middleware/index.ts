@@ -1,2 +1,1 @@
-import applyMiddleware from "./applyMiddleware";
-export { applyMiddleware };
+export { applyMiddleware /*, MiddlewareFactory */ } from "./applyMiddleware";

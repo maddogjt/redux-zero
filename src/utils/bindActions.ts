@@ -1,5 +1,5 @@
 // import { bindAction3, RType } from "./bindAction";
-import Store from "../interfaces/Store";
+import { Store } from "../interfaces";
 import { ActionsObject, BoundActionsObject, /*Action*/ } from "../types";
 
 // type OmitFirstArg<F, R> = F extends (x: unknown, ...args: infer P) => R

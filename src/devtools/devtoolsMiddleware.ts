@@ -1,4 +1,5 @@
-import Store from "../interfaces/Store";
+import {Store
+ } from "../interfaces";
 
 export interface NextAction {
   key: string;

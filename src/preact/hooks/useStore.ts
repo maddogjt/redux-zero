@@ -1,7 +1,7 @@
 import { useContext } from "preact/hooks";
-import { getTypedContext } from "../components/Store";
-import { Store } from "../../interfaces/Store";
+import { getTypedContext } from "../store";
+import { DefaultRootState, Store } from "../../interfaces";
 
-export function useStore<TStore = any>(): Store<TStore> {
-  return useContext(getTypedContext<TStore>());
+export function useStore<S = DefaultRootState>(): Store<S> {
+  return useContext(getTypedContext<S>());
 }

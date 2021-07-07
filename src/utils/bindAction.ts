@@ -1,6 +1,5 @@
 // import { set } from "./set";
-import Store from "../interfaces/Store";
-import { DefaultRootState } from "../interfaces/DefaultRootState";
+import { DefaultRootState, Store } from "../interfaces";
 
 export interface BindAction<S = DefaultRootState> {
   <TArgs extends unknown[]>(
@@ -40,7 +39,7 @@ export function bindAction3<
 ): (...args: TArgs) => RT {
   return (...args: TArgs): RT => {
     if (typeof store.middleware === "function") {
-      const mw = store.middleware(store, action, args) as unknown;
+      const mw = store.middleware(store, action, args);
       return mw as RT;
     }
     let result: void | Promise<void>;

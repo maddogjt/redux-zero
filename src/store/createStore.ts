@@ -1,18 +1,18 @@
-import Store from "../interfaces/Store";
-import { DefaultRootState } from "../interfaces/DefaultRootState";
+import { Store, DefaultRootState } from "../interfaces";
+import { Middleware } from "../interfaces/Store";
 
 function createStore<S extends DefaultRootState>(): Store<S>;
 function createStore<S extends DefaultRootState>(
   initialState?: S,
-  middleware?: any
+  middleware?: Middleware<S>
 ): Store<S>;
 function createStore<S extends DefaultRootState>(
   initialState?: Partial<S>,
-  middleware?: any
+  middleware?: Middleware<S>
 ): Store<S>;
 function createStore<S extends DefaultRootState>(
   initialState: Partial<S> | S = {},
-  middleware: any = null
+  middleware: Middleware<S> = null
 ): Store<S> {
   type TListener = (state: S) => void;
   let state: S = initialState as S;

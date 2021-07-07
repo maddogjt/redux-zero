@@ -22,7 +22,7 @@
   "scripts": {
     "clean": "rimraf lib dist es coverage types",
     "--compile": "rimraf lib && tsc --pretty",
-    "compile": "tsc -b ./src/tsconfig.cjs.json ./src/tsconfig.cjs.spec.json ./src/tsconfig.esm.json ./src/tsconfig.types.json ./src/tsconfig.types.spec.json",
+    "compile": "tsc -b ./src/tsconfig.cjs.json ./src/tsconfig.cjs.spec.json ./src/tsconfig.esm.json ./src/tsconfig.types.spec.json",
     "compile:mini": "tsc -b ./src/tsconfig.esm.json",
     "compile:watch": "tsc --pretty --watch",
     "build:clean": "rimraf ./dist",
