@@ -1,4 +1,4 @@
-import {createStore} from "../../src";
+  import {createStore} from "../../src";
 import {applyMiddleware} from "../../src/middleware";
 import {bindActions} from "../../src/utils";
 

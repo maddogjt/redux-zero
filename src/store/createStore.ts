@@ -1,5 +1,4 @@
-import { Store, DefaultRootState } from "../interfaces";
-import { Middleware } from "../interfaces/Store";
+import { Store, DefaultRootState, Middleware } from "../";
 
 function createStore<S extends DefaultRootState>(): Store<S>;
 function createStore<S extends DefaultRootState>(

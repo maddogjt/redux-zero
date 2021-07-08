@@ -1,5 +1,5 @@
 import { useEffect, useLayoutEffect, useReducer, useRef } from "preact/hooks";
-import { DefaultRootState } from "../../interfaces";
+import { DefaultRootState } from "../store";
 import { useStore } from "./useStore";
 
 type Selector<TSelected, S=DefaultRootState> = (state: S) => TSelected;
@@ -11,30 +11,6 @@ function refEquality<TS>(a: TS, b: TS) {
 
 const useIsomorphicLayoutEffect =
   typeof window !== "undefined" ? useLayoutEffect : useEffect;
-
-//   export function useSelector<TState = DefaultRootState, TSelected = unknown>(
-//     selector: (state: TState) => TSelected,
-//     equalityFn?: (left: TSelected, right: TSelected) => boolean
-//   ): TSelected;
-
-//   /**
-//    * This interface allows you to easily create a hook that is properly typed for your
-//    * store's root state.
-//    *
-//    * @example
-//    *
-//    * interface RootState {
-//    *   property: string;
-//    * }
-//    *
-//    * const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector;
-//    */
-//   export interface TypedUseSelectorHook<TState> {
-//     <TSelected>(
-//       selector: (state: TState) => TSelected,
-//       equalityFn?: (left: TSelected, right: TSelected) => boolean
-//     ): TSelected;
-//   }
 
 export function useSelector<S=DefaultRootState, TSelected = unknown>(
   selector: Selector<TSelected, S>

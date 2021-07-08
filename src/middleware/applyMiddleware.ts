@@ -1,5 +1,5 @@
-import {Store} from "../interfaces";
-import {set} from "../utils/set";
+import { Store } from "..";
+import { set } from "../utils/set";
 
 const finalMiddleware = (store: Store, args: any[]) => (action: Function) =>
   set(store, action(store.getState(), ...args));
@@ -14,7 +14,7 @@ export function applyMiddleware(...middlewares: any[]) {
     const chain = middlewares
       .map((middleware) => middleware(store))
       .reduce(
-        (next, middleware) => middleware(next, args),
+        (next, middleware) => middleware(next, ...args),
         finalMiddleware(store, args)
       );
 

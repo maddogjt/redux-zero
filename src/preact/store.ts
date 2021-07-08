@@ -1,8 +1,8 @@
 import { Context, createContext } from "preact";
-import { DefaultRootState, Store } from "../interfaces";
+import { DefaultRootState, Store } from "../";
 
-const gContext: Context<unknown> = createContext(null);
+export const StoreContext: Context<any> = createContext(null);
 
 export function getTypedContext<S = DefaultRootState>(): Context<Store<S>> {
-  return gContext as Context<Store<S>>;
+  return StoreContext as Context<Store<S>>;
 }

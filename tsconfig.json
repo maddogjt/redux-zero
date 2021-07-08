@@ -23,15 +23,16 @@
       "dom"
     ],
     "target": "esnext",
-    "baseUrl": "./src",
+    // "baseUrl": "./src",
     "paths": {
       // "preact": ["./node_modules/preact/dist/*"],
-      "predux": ["./src/index"],
-      "predux/preact": ["./src/preact/index"],
-      "predux/middleware": ["./src/middleware/index"],
-      "predux/utils": ["./src/utils/index"],
+      // "predux": ["./src/index"],
+      // "predux/preact": ["./src/preact/index"],
+      // "predux/middleware": ["./src/middleware/index"],
+      // "predux/utils": ["./src/utils/index"],
     }
   },
+  "exclude": ["./dist/**/*"],
   "bazelOptions": {
     "suppressTsconfigOverrideWarnings": true
   }

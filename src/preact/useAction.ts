@@ -1,15 +1,14 @@
 import { useMemo } from "preact/hooks";
 import { useStore } from "./useStore";
-// import { bindAction, bindActions } from "../../utils";
-// import { Action } from "../../types";
-import { bindAction3 } from "../../utils/bindAction";
+import { Action, bindAction } from "../utils";
+import { ActionArgs, BoundActionResult } from "../utils/bindAction";
 
 // tuple<T extends any[]>(...args: T)
 
-export declare type TypedAction<TState, TArgs extends any[]> = (
-  state: TState,
-  ...args: TArgs
-) => Promise<Partial<TState>> | Partial<TState>;
+// export declare type TypedAction<TState, TArgs extends any[]> = (
+// state: TState,
+// ...args: TArgs
+// ) => Promise<Partial<TState>> | Partial<TState>;
 // export declare type FuncTypeWithoutFirstArg<T extends (...args: any[]) => any> =
 //   T extends (arg1: infer U, ...args: infer V) => infer Q
 //     ? (...args: V) => void
@@ -22,12 +21,13 @@ export declare type TypedAction<TState, TArgs extends any[]> = (
 //   [P in keyof ReturnType<T>]: FuncTypeWithoutFirstArg<ReturnType<T>[P]>;
 // };
 
-export function useAction<TState, TArgs extends unknown[] = unknown[]>(
-  action: TypedAction<TState, TArgs>
-): (...args: TArgs) => Promise<void> | void {
-  const store = useStore<TState>();
+export function useAction<
+  T extends Action<any>,
+  S = T extends (a: infer Q, ...args: any[]) => any ? Q : never
+>(action: T): (...args: ActionArgs<T>) => BoundActionResult<T> {
+  const store = useStore<S>();
 
   return useMemo(() => {
-    return bindAction3(store, action);
+    return bindAction(store, action);
   }, [store, action]);
 }

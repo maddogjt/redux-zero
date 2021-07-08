@@ -1,3 +1,2 @@
-export { bindAction3 } from "./bindAction";
+export { bindAction, Action } from "./bindAction";
 export { bindActions } from "./bindActions";
-export { combineActions } from "./combineActions";

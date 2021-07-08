@@ -1,5 +1,4 @@
-import {Store
- } from "../interfaces";
+import { Store } from "../";
 
 export interface NextAction {
   key: string;
@@ -112,7 +111,9 @@ function subscribe(store: Store, middleware: { initialized?: boolean }) {
 }
 
 const devtoolsMiddleware =
-  (store: Store) => (next: Function, args: any) => (action: Action) => {
+  (store: Store) =>
+  (next: Function, ...args: any[]) =>
+  (action: Action) => {
     const result = next(action);
     subscribe(store, devtoolsMiddleware as { initialized?: boolean });
     getOrAddAction(action, () => next(action));

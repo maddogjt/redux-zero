@@ -5,6 +5,7 @@
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
   "types": "index.d.ts",
+  "sideEffects": false,
   "typesVersions": {
     ">=4.2": {
       "*": [
@@ -69,7 +70,12 @@
     },
     "testMatch": [
       "<rootDir>/test/**/*.spec.(ts|tsx)"
-    ]
+    ],
+    "globals": {
+      "ts-jest": {
+        "tsConfig": "src/tsconfig.cjs.spec.json"
+      }
+    }
   },
   "devDependencies": {
     "@types/enzyme": "3.10.8",

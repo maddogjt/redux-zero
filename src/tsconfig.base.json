@@ -2,12 +2,12 @@
   "extends": "../tsconfig.json",
   "compilerOptions": {
     "noEmit": false,
-    "baseUrl": ".",
+    // "baseUrl": ".",
     "paths": {
-      "preact": ["../node_modules/preact"],
-      "preact/*": ["../node_modules/preact/*"],
-      "predux": ["./"],
-      "predux/*": ["./*"]
+      // "preact": ["../node_modules/preact"],
+      // "preact/*": ["../node_modules/preact/*"],
+      // "predux": ["./"],
+      // "predux/*": ["./*"]
     }
   },
   "include": ["./**/*"]

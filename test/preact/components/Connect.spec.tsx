@@ -1,16 +1,18 @@
 /// <reference types="enzyme-adapter-preact-pure" />
-import { h } from "preact";
+import { h } from "preact"; /** @jsx h */
 import { mount } from "enzyme";
 
 import { createStore, Store } from "../../../src";
-import { Provider, Connect, connect } from "../../../src/preact";
+import { Connect, connect, getTypedContext } from "../../../src/preact";
 
 describe("predux - preact bindings", () => {
   let store: Store<any>, listener;
+  let StoreContext;
   beforeEach(() => {
     store = createStore({});
     listener = jest.fn();
     store.subscribe(listener);
+    StoreContext = getTypedContext<typeof store>();
   });
 
   describe("connect HOC", () => {
@@ -24,9 +26,9 @@ describe("predux - preact bindings", () => {
       const ConnectedComp = connect(mapToProps)(Comp);
 
       const App = () => (
-        <Provider store={store}>
+        <StoreContext.Provider value={store}>
           <ConnectedComp />
-        </Provider>
+        </StoreContext.Provider>
       );
 
       let context = mount(<App />);
@@ -52,9 +54,9 @@ describe("predux - preact bindings", () => {
       const ConnectedComp = connect(mapToProps, actions)(Comp);
 
       const App = () => (
-        <Provider store={store}>
+        <StoreContext.Provider value={store}>
           <ConnectedComp />
-        </Provider>
+        </StoreContext.Provider>
       );
 
       let context = mount(<App />);
@@ -80,9 +82,9 @@ describe("predux - preact bindings", () => {
       const ConnectedComp = connect(mapToProps, actions)(Comp);
 
       const App = () => (
-        <Provider store={store}>
+        <StoreContext.Provider value={store}>
           <ConnectedComp />
-        </Provider>
+        </StoreContext.Provider>
       );
 
       let context = mount(<App />);
@@ -102,7 +104,7 @@ describe("predux - preact bindings", () => {
       const mapToProps = ({ count }) => ({ count });
 
       const actions = ({ getState, setState }) => ({
-        increment() {
+        increment: (): Promise<{}> => {
           setState({ pending: true });
 
           return Promise.resolve()
@@ -124,6 +126,7 @@ describe("predux - preact bindings", () => {
               expect(state3.count).toBe(2);
 
               done();
+              return {};
             });
         },
       });
@@ -131,9 +134,9 @@ describe("predux - preact bindings", () => {
       const ConnectedComp = connect(mapToProps, actions)(Comp);
 
       const App = () => (
-        <Provider store={store}>
+        <StoreContext.Provider value={store}>
           <ConnectedComp />
-        </Provider>
+        </StoreContext.Provider>
       );
 
       let context = mount(<App />);
@@ -148,9 +151,9 @@ describe("predux - preact bindings", () => {
       const ConnectedComp = connect(mapToProps)(Comp);
 
       const App = () => (
-        <Provider store={store}>
+        <StoreContext.Provider value={store}>
           <ConnectedComp />
-        </Provider>
+        </StoreContext.Provider>
       );
 
       let context = mount(<App />);
@@ -173,11 +176,11 @@ describe("predux - preact bindings", () => {
       const ConnectedChildComp = connect(mapToProps)(ChildComponent);
 
       const App = () => (
-        <Provider store={store}>
+        <StoreContext.Provider value={store}>
           <ConnectedComp>
             <ConnectedChildComp />
           </ConnectedComp>
-        </Provider>
+        </StoreContext.Provider>
       );
 
       let context = mount(<App />);
@@ -209,9 +212,9 @@ describe("predux - preact bindings", () => {
       const ConnectedComp = connect(undefined)(Comp);
 
       const App = () => (
-        <Provider store={store}>
+        <StoreContext.Provider value={store}>
           <ConnectedComp />
-        </Provider>
+        </StoreContext.Provider>
       );
 
       let context = mount(<App />);
@@ -225,9 +228,9 @@ describe("predux - preact bindings", () => {
       }))(Comp);
 
       const App = () => (
-        <Provider store={store}>
+        <StoreContext.Provider value={store}>
           <ConnectedComp someProp="some value" />
-        </Provider>
+        </StoreContext.Provider>
       );
 
       let context = mount(<App />);
@@ -251,9 +254,9 @@ describe("predux - preact bindings", () => {
       const ConnectedComp = connect(mapToProps)(Comp);
 
       const App = ({ name }) => (
-        <Provider store={store}>
+        <StoreContext.Provider value={store}>
           <ConnectedComp name={name} />
-        </Provider>
+        </StoreContext.Provider>
       );
 
       let context = mount(<App name="foo" />);
@@ -277,9 +280,9 @@ describe("predux - preact bindings", () => {
       );
 
       const App = () => (
-        <Provider store={store}>
+        <StoreContext.Provider value={store}>
           <ConnectedComp />
-        </Provider>
+        </StoreContext.Provider>
       );
 
       let context = mount(<App />);
@@ -303,11 +306,10 @@ describe("predux - preact bindings", () => {
           {({ count, increment }) => <h1 onClick={increment}>{count}</h1>}
         </Connect>
       );
-
       const App = () => (
-        <Provider store={store}>
+        <StoreContext.Provider value={store}>
           <ConnectedComp />
-        </Provider>
+        </StoreContext.Provider>
       );
 
       let context = mount(<App />);
@@ -333,9 +335,9 @@ describe("predux - preact bindings", () => {
       const ConnectedComp = connect(mapToProps, actions)(Comp);
 
       const App = () => (
-        <Provider store={store}>
+        <StoreContext.Provider value={store}>
           <ConnectedComp add={10} />
-        </Provider>
+        </StoreContext.Provider>
       );
 
       let context = mount(<App />);
@@ -355,7 +357,7 @@ describe("predux - preact bindings", () => {
       const mapToProps = ({ count }) => ({ count });
 
       const actions = ({ getState, setState }) => ({
-        increment() {
+        increment: (): Promise<any> => {
           setState({ pending: true });
 
           return Promise.resolve()
@@ -388,9 +390,9 @@ describe("predux - preact bindings", () => {
       );
 
       const App = () => (
-        <Provider store={store}>
+        <StoreContext.Provider value={store}>
           <ConnectedComp />
-        </Provider>
+        </StoreContext.Provider>
       );
 
       let context = mount(<App />);
@@ -408,9 +410,9 @@ describe("predux - preact bindings", () => {
       );
 
       const App = () => (
-        <Provider store={store}>
+        <StoreContext.Provider value={store}>
           <ConnectedComp />
-        </Provider>
+        </StoreContext.Provider>
       );
 
       let context = mount(<App />);
@@ -439,11 +441,11 @@ describe("predux - preact bindings", () => {
       );
 
       const App = () => (
-        <Provider store={store}>
+        <StoreContext.Provider value={store}>
           <ConnectedComp>
             <ConnectedChildComp />
           </ConnectedComp>
-        </Provider>
+        </StoreContext.Provider>
       );
 
       let context = mount(<App />);

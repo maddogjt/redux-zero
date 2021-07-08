@@ -1,4 +1,4 @@
-import { DefaultRootState, Store } from "../interfaces";
+import { DefaultRootState, Store } from "..";
 
 function isPromise<T>(s: T | Promise<T>): s is Promise<T> {
   return typeof s === "object" && typeof s["then"] === "function";

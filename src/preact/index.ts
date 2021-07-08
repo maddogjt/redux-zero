@@ -1,7 +1,5 @@
-export { connect, Connect } from "./components/Connect";
-export { useSelector } from "./hooks/useSelector";
-export { useStore } from "./hooks/useStore";
-export { useAction } from "./hooks/useAction";
+export { connect, Connect } from "./Connect";
+export { useSelector } from "./useSelector";
+export { useStore } from "./useStore";
+export { useAction } from "./useAction";
 export { getTypedContext } from "./store";
-export { Props } from "./Props";
-

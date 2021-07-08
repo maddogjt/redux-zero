@@ -1,2 +1,2 @@
 export { createStore } from "./store/createStore";
-export { Store, DefaultRootState } from "./interfaces";
+export { Store, DefaultRootState, Middleware } from "./store";
