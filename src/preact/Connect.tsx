@@ -1,6 +1,10 @@
-/** @jsx h */
-import { h, ComponentChild } from "preact";
-import * as Preact from "preact";
+import {
+  h,
+  ComponentChild,
+  FunctionComponent,
+  ComponentConstructor,
+} from "preact";
+// import * as Preact from "preact";
 import { useStore } from "./useStore";
 import {
   ActionCreator,
@@ -57,9 +61,7 @@ export function Connect<S>(props: Props2<S>): JSX.Element {
 
 export type StateMapper<T, S, I> = (state: S, props: T) => I;
 
-type CType<P, S = unknown> =
-  | Preact.FunctionComponent<P>
-  | Preact.ComponentConstructor<P, S>;
+type CType<P, S = unknown> = FunctionComponent<P> | ComponentConstructor<P, S>;
 
 export function connect<
   S,

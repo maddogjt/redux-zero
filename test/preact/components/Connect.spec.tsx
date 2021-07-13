@@ -1,5 +1,5 @@
 /// <reference types="enzyme-adapter-preact-pure" />
-import { h } from "preact"; /** @jsx h */
+import { h } from "preact";
 import { mount } from "enzyme";
 
 import { createStore, Store } from "../../../src";
